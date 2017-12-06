@@ -99,3 +99,58 @@ test_taxicab_memory(1024, 31)
 
 // PART 1 SOLUTION:
 test_taxicab_memory(325489, 552)
+
+// PART 2 TESTS:
+function test_surrounding_cells(cell, surrounding) {
+  QUnit.test('surrounding cells of (' + cell + ')', function(assert) {
+    assert.deepEqual(surrounding_cells(cell), surrounding)
+  })
+}
+test_surrounding_cells('0,0', ['-1,1', '0,1', '1,1', '1,0', '1,-1', '0,-1', '-1,-1', '-1,0'])
+test_surrounding_cells('2,3', ['1,4', '2,4', '3,4', '3,3', '3,2', '2,2', '1,2', '1,3'])
+
+QUnit.test('test stress-test travel #1 from 0,0 to 1,0', function(assert) {
+  let traveller = new StressTestTraveller()
+  traveller.advance()
+  assert.equal(traveller.position, '1,0')
+  assert.equal(traveller.number, 1)
+  assert.equal(traveller.grid['0,0'], 1)
+})
+
+QUnit.test('test stress-test travel #6 (value 122) from 1,2 to 0,2', function(assert) {
+  let traveller = new StressTestTraveller()
+  traveller.number = 122
+  traveller.position = '1,2'
+  traveller.direction = DIRECTION_LEFT
+  traveller.maxima[DIRECTION_UP] = 2
+  traveller.maxima[DIRECTION_LEFT] = 1
+  traveller.maxima[DIRECTION_DOWN] = 1
+  traveller.maxima[DIRECTION_RIGHT] = 2
+  traveller.grid['0,0'] = 1
+  traveller.grid['1,0'] = 1
+  traveller.grid['1,1'] = 2
+  traveller.grid['0,1'] = 4
+  traveller.grid['-1,1'] = 5
+  traveller.grid['-1,0'] = 10
+  traveller.grid['-1,-1'] = 11
+  traveller.grid['0,-1'] = 23
+  traveller.grid['1,-1'] = 25
+  traveller.grid['2,-1'] = 26
+  traveller.grid['2,0'] = 54
+  traveller.grid['2,1'] = 57
+  traveller.grid['2,2'] = 59
+  traveller.advance()
+  assert.equal(traveller.position, '0,2')
+  assert.equal(traveller.number, 133)
+  assert.equal(traveller.grid['1,2'], 122)
+})
+
+function test_taxicab_memory_stress(n, rv) {
+  QUnit.test('taxicab_memory_stress(' + n + ') === ' + rv, function(assert) {
+    assert.equal(taxicab_memory_stress(n), rv)
+  })
+}
+
+test_taxicab_memory_stress(1, 2)
+test_taxicab_memory_stress(50, 54)
+test_taxicab_memory_stress(350, 351)
