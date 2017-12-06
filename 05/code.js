@@ -3,17 +3,35 @@ function Maze(instructions, current) {
   this.current = current
 }
 
-function progress_maze(maze) {
-  return new Maze(maze.instructions.map((value, index) => (index === maze.current) ? value+1 : value),
-                  maze.current + maze.instructions[maze.current])
+function progress_maze(maze, modify_current_instruction) {
+  let cur = maze.current
+  maze.current += maze.instructions[cur]
+  maze.instructions[cur] = modify_current_instruction(maze.instructions[cur])
+  return maze
 }
 
-function escape_maze(instructions) {
+function calculate_steps_to_escape(instructions, modify_current_instruction) {
   let steps = 0
   maze = new Maze(instructions, 0)
   while ((maze.current < maze.instructions.length) && (maze.current >= 0)) {
-    maze = progress_maze(maze)
+    maze = progress_maze(maze, modify_current_instruction)
     steps++
   }
   return steps
+}
+
+function escape_maze(instructions) {
+  return calculate_steps_to_escape(instructions, (x) => x + 1)
+}
+
+function modify_current_instruction2(x) {
+  if ( x >= 3 ) {
+    return x - 1
+  } else {
+    return x + 1
+  }
+}
+
+function escape_maze2(instructions) {
+  return calculate_steps_to_escape(instructions, modify_current_instruction2)
 }
