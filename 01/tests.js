@@ -9,33 +9,33 @@ QUnit.test('rolling_lookup([1, 2, 3], 4) === 2', function(assert) {
 QUnit.test('rolling_lookup([1], 20) === 1', function(assert) {
   assert.equal(rolling_lookup([1], 20), 1)
 })
-QUnit.test('checksum(1122) === 3', function(assert) {
-  assert.equal(checksum(1122), 3)
+QUnit.test('captcha(1122) === 3', function(assert) {
+  assert.equal(captcha(1122), 3)
 })
-QUnit.test('checksum(1111) === 4', function(assert) {
-  assert.equal(checksum(1111), 4)
+QUnit.test('captcha(1111) === 4', function(assert) {
+  assert.equal(captcha(1111), 4)
 })
-QUnit.test('checksum(1234) === 0', function(assert) {
-  assert.equal(checksum(1234), 0)
+QUnit.test('captcha(1234) === 0', function(assert) {
+  assert.equal(captcha(1234), 0)
 })
-QUnit.test('checksum(91212129) === 9', function(assert) {
-  assert.equal(checksum(91212129), 9)
+QUnit.test('captcha(91212129) === 9', function(assert) {
+  assert.equal(captcha(91212129), 9)
 })
-QUnit.test('checksum(puzzle_input) === 1341', function(assert) {
-  assert.equal(checksum(puzzle_input), 1341)
+QUnit.test('captcha(puzzle_input) === 1341', function(assert) {
+  assert.equal(captcha(puzzle_input), 1341)
 })
-QUnit.test('checksum2(1212) === 6', function(assert) {
-  assert.equal(checksum2(1212), 6)
+QUnit.test('captcha2(1212) === 6', function(assert) {
+  assert.equal(captcha2(1212), 6)
 })
-QUnit.test('checksum2(1221) === 0', function(assert) {
-  assert.equal(checksum2(1221), 0)
+QUnit.test('captcha2(1221) === 0', function(assert) {
+  assert.equal(captcha2(1221), 0)
 })
-QUnit.test('checksum2(123425) === 4', function(assert) {
-  assert.equal(checksum2(123425), 4)
+QUnit.test('captcha2(123425) === 4', function(assert) {
+  assert.equal(captcha2(123425), 4)
 })
-QUnit.test('checksum2(123123) === 12', function(assert) {
-  assert.equal(checksum2(123123), 12)
+QUnit.test('captcha2(123123) === 12', function(assert) {
+  assert.equal(captcha2(123123), 12)
 })
-QUnit.test('checksum2(12131415) === 4', function(assert) {
-  assert.equal(checksum2(12131415), 4)
+QUnit.test('captcha2(12131415) === 4', function(assert) {
+  assert.equal(captcha2(12131415), 4)
 })

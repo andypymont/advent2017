@@ -5,7 +5,7 @@ function rolling_lookup(array, index) {
   return array[index]
 }
 
-function calc_checksum(input, lookahead) {
+function calc_captcha(input, lookahead) {
   digits = input.toString()
                 .split('')
                 .map((x) => parseInt(x, 10))
@@ -14,10 +14,10 @@ function calc_checksum(input, lookahead) {
                .reduce((a, b) => a+b, 0)
 }
 
-function checksum(input) {
-  return calc_checksum(input, (x) => 1)
+function captcha(input) {
+  return calc_captcha(input, (x) => 1)
 }
 
-function checksum2(input) {
-  return calc_checksum(input, (x) => (x.length/2))
+function captcha2(input) {
+  return calc_captcha(input, (x) => (x.length/2))
 }
