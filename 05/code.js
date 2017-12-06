@@ -24,14 +24,6 @@ function escape_maze(instructions) {
   return calculate_steps_to_escape(instructions, (x) => x + 1)
 }
 
-function modify_current_instruction2(x) {
-  if ( x >= 3 ) {
-    return x - 1
-  } else {
-    return x + 1
-  }
-}
-
 function escape_maze2(instructions) {
-  return calculate_steps_to_escape(instructions, modify_current_instruction2)
+  return calculate_steps_to_escape(instructions, (x) => x >= 3 ? x - 1 : x + 1)
 }
