@@ -512,6 +512,7 @@ cbok koumkad otpozb pqcs emilpe wpcyvxd bock
 spjb xkkak anuvk ejoklh nyerw bsjp zxuq vcwitnd xxtjmjg zfgq xkpf
 juo pmiyoh xxk myphio ogfyf dovlmwm moevao qqxidn`
 
+// Part 1 tests:
 function test_valid_passphrase(passphrase, valid) {
   QUnit.test('valid_passphrase("' + passphrase + '") === ' + valid.toString(), function(assert) {
     assert.equal(valid_passphrase(passphrase), valid)
@@ -522,9 +523,37 @@ test_valid_passphrase('aa bb cc dd ee', true)
 test_valid_passphrase('aa bb cc dd aa', false)
 test_valid_passphrase('aa bb cc dd aaa', true)
 
-QUnit.test('count_valid_passphrases(all_above_examples) === 2', function(assert) {
-  assert.equal(count_valid_passphrases('aa bb cc dd ee\naa bb cc dd aa\naa bb cc dd aaa'), 2)
+QUnit.test('count_valid_passphrases(all_above_examples, valid_passphrase) === 2', function(assert) {
+  assert.equal(count_valid_passphrases('aa bb cc dd ee\naa bb cc dd aa\naa bb cc dd aaa', valid_passphrase), 2)
 })
-QUnit.test('count_valid_passphrases("hello hello\ntesty mctesterson\ncrash bang crash what a password") === 1', function(assert) {
-  assert.equal(count_valid_passphrases('hello hello\ntesty mctesterson\ncrash bang crash what a password'), 1)
+QUnit.test('count_valid_passphrases("hello hello\ntesty mctesterson\ncrash bang crash what a password", valid_passphrase) === 1', function(assert) {
+  assert.equal(count_valid_passphrases('hello hello\ntesty mctesterson\ncrash bang crash what a password', valid_passphrase), 1)
 })
+
+// Part 1 result:
+QUnit.test('count_valid_passphrases(puzzle_input, valid_passphrase) === 466', function(assert) {
+  assert.equal(count_valid_passphrases(puzzle_input, valid_passphrase), 466)
+})
+
+// Part 2 tests:
+function test_sort_word(word, expected) {
+  QUnit.test('sort_word("' + word + '") === "' + expected + '"', function(assert) {
+    assert.equal(sort_word(word), expected)
+  })
+}
+
+test_sort_word('ioii', 'iiio')
+test_sort_word('hello', 'ehllo')
+test_sort_word('password', 'adoprssw')
+
+function test_valid_passphrase2(passphrase, valid) {
+  QUnit.test('valid_passphrase2("' + passphrase + '") === ' + valid.toString(), function(assert) {
+    assert.equal(valid_passphrase2(passphrase), valid)
+  })
+}
+
+test_valid_passphrase2('abcde fghij', true)
+test_valid_passphrase2('abcde xyz ecdab', false)
+test_valid_passphrase2('a ab abc abd abf abj', true)
+test_valid_passphrase2('iiii oiii ooii oooi oooo', true)
+test_valid_passphrase2('oiii ioii iioi iiio', false)
