@@ -1,3 +1,4 @@
+// Part 1 tests:
 example1 =
 `pbga (66)
 xhth (57)
@@ -84,4 +85,9 @@ QUnit.test('node_list_from_text(example3)', function(assert) {
                     {'name': 'branch1', 'weight': 68, 'children': ['leaf1', 'leaf2', 'leaf3']},
                     {'name': 'leaf1', 'weight': 61, 'children': []}
                   ])
+})
+
+// Part 1 solution:
+QUnit.test('bottom_of_tower(puzzle_input)', function(assert) {
+  assert.equal(bottom_of_tower(puzzle_input), 'ykpsek')
 })

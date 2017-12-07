@@ -1,5 +1,9 @@
-function bottom_of_tower(tower) {
-  return 'tknk'
+function bottom_of_tower(text) {
+  const nodes = node_list_from_text(text)
+  const all_children = [].concat.apply([], nodes.map((node) => node['children']))
+  return nodes.map((node) => node['name'])
+              .filter((node) => all_children.indexOf(node) === -1)
+              [0]
 }
 
 function node_list_from_text(text) {
