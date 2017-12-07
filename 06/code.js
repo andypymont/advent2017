@@ -1,5 +1,3 @@
-puzzle_input = '10	3	15	10	5	15	5	15	9	2	5	8	5	2	3	6'.split('\t').map((x) => parseInt(x, 10))
-
 function redistribute_from(distribution) {
   return distribution.indexOf(distribution.reduce((a, b) => Math.max(a, b), 0))
 }
@@ -20,7 +18,7 @@ function redistribute(distribution, from) {
   return distribution
 }
 
-function redistributions_until_repeat(distribution) {
+function calc_redistributions_until_repeat(distribution) {
   let previous = []
   let redistributions = 0
   while ( previous.indexOf(distribution.toString()) === -1 ) {
@@ -28,5 +26,15 @@ function redistributions_until_repeat(distribution) {
     distribution = redistribute(distribution)
     redistributions++
   }
-  return redistributions
+  return { 'first': previous.indexOf(distribution.toString()),
+           'second': redistributions }
+}
+
+function redistributions_until_repeat(distribution) {
+  return calc_redistributions_until_repeat(distribution)['second']
+}
+
+function redistributions_until_second_repeat(distribution) {
+  let rv = calc_redistributions_until_repeat(distribution)
+  return rv['second'] - rv['first']
 }
