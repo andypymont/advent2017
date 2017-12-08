@@ -47,7 +47,6 @@ function correct_weight(node, correction) {
     return node['children'].filter(child => (total_weight(child) === weight)).length > 1
   }
   if ( node['children'].length === child_weights.filter(is_standard_weight).length ) {
-    console.log('got result from ' + node['name'] + ':  returning ' + (node['weight']+correction))
     return node['weight'] + correction
   } else {
     const standard_weight = child_weights.filter(is_standard_weight)
@@ -55,7 +54,6 @@ function correct_weight(node, correction) {
     const non_standard_weight = child_weights.filter((x) => !(x === standard_weight))
                                              .reduce((a, b) => Math.max(a, b), 0)
     const node_to_correct = node['children'][child_weights.indexOf(non_standard_weight)]
-    console.log('recurring again looking at node ' + node_to_correct['name'])
     return correct_weight(node_to_correct, standard_weight - non_standard_weight)
   }
 }
