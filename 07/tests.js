@@ -36,7 +36,8 @@ leaf3 (10)
 leaf4 (30)
 branch1 (10) -> leaf1, leaf2, leaf3
 branch2 (10) -> leaf4
-root (10) -> branch1`
+branch3 (40)
+root (10) -> branch1, branch2, branch3`
 
 QUnit.test('nodes_from_text(example1)', function(assert) {
   assert.deepEqual(nodes_from_text(example1),
@@ -75,12 +76,13 @@ QUnit.test('nodes_from_text(example2)', function(assert) {
 QUnit.test('nodes_from_text(example3)', function(assert) {
   assert.deepEqual(nodes_from_text(example3),
                    {'leaf2': {'name': 'leaf2', 'weight': 5, 'children': []},
-                    'root': {'name': 'root', 'weight': 10, 'children': ['branch1']},
+                    'root': {'name': 'root', 'weight': 10, 'children': ['branch1', 'branch2', 'branch3']},
                     'leaf3': {'name': 'leaf3', 'weight': 10, 'children': []},
                     'branch1': {'name': 'branch1', 'weight': 10, 'children': ['leaf1', 'leaf2', 'leaf3']},
                     'leaf1': {'name': 'leaf1', 'weight': 10, 'children': []},
                     'leaf4': {'name': 'leaf4', 'weight': 30, 'children': []},
-                    'branch2': {'name': 'branch2', 'weight': 10, 'children': ['leaf4']}
+                    'branch2': {'name': 'branch2', 'weight': 10, 'children': ['leaf4']},
+                    'branch3': {'name': 'branch3', 'weight': 40, 'children': []}
                    })
 })
 

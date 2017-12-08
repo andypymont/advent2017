@@ -38,19 +38,24 @@ function total_weight(node) {
                          .reduce((a, b) => a + b, 0)
 }
 
-function make_weight_correction(tower) {
-  
-}
-
-function correct_weight(tower) {
-  const child_weights = tower['children'].map((node) => total_weight(node))
-  function standard_weight(weight) {
-    return tower['children'].filter(child => (child.weight === weight)).length > 1
+function correct_weight(node, correction) {
+  if (typeof correction === 'undefined') {
+    correction = 0
   }
-  const standard_weight = child_weights.filter(standard_weight)
-                                       .reduce((a, b) => Math.max, 0)
-  const non_standard_weight = child_weights.filter((x) => !(x === standard_weight))
-                                           .reduce((a, b) => Math.max, 0)
-  const correction_needed = standard_weight - non_standard_weight
-  return make_weight_correction(tower, correction_needed)
+  const child_weights = node['children'].map(node => total_weight(node))
+  function is_standard_weight(weight) {
+    return node['children'].filter(child => (total_weight(child) === weight)).length > 1
+  }
+  if ( node['children'].length === child_weights.filter(is_standard_weight).length ) {
+    console.log('got result from ' + node['name'] + ':  returning ' + (node['weight']+correction))
+    return node['weight'] + correction
+  } else {
+    const standard_weight = child_weights.filter(is_standard_weight)
+                                         .reduce((a, b) => Math.max(a, b), 0)
+    const non_standard_weight = child_weights.filter((x) => !(x === standard_weight))
+                                             .reduce((a, b) => Math.max(a, b), 0)
+    const node_to_correct = node['children'][child_weights.indexOf(non_standard_weight)]
+    console.log('recurring again looking at node ' + node_to_correct['name'])
+    return correct_weight(node_to_correct, standard_weight - non_standard_weight)
+  }
 }
