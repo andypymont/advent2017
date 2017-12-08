@@ -23,18 +23,23 @@ function process_instruction(register, text) {
     if (operation === 'dec') {
       operation_value = -operation_value
     }
-    register[operation_register] = (register[operation_register] || 0) + operation_value
+    let new_register_value = (register[operation_register] || 0) + operation_value
+    register[operation_register] = new_register_value
+    if (new_register_value > register['maximum_value']) {
+      register['maximum_value'] = new_register_value
+    }
   }
 }
 
 function process_instructions(text) {
   const instructions = text.split('\n')
-  let register = {}
+  let register = {'maximum_value': 0}
   instructions.forEach((i) => process_instruction(register, i))
   return register
 }
 
 function maximum_register_value(register) {
-  return Object.keys(register).map(key => register[key])
+  return Object.keys(register).filter(key => key !== 'maximum_value')
+                              .map(key => register[key])
                               .reduce((a, b) => Math.max(a, b), 0)
 }
