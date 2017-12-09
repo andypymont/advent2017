@@ -1,6 +1,7 @@
 function Group(parent) {
   this.parent = parent
   this.contents = []
+  this.garbage = 0
   if ( typeof parent !== 'undefined' ) {
     parent.contents.push(this)
   }
@@ -24,7 +25,16 @@ function remove_ignored(stream) {
 }
 
 function groups_to_lists(groups) {
-  return groups.contents.map(groups_to_lists)
+  let rv = groups.contents.map(groups_to_lists)
+  if (typeof groups.parent === 'undefined') {
+    return rv[0]
+  } else {
+    return rv
+  }
+}
+
+function garbage_count(groups) {
+  return groups.garbage + groups.contents.reduce((a, b) => a + garbage_count(b), 0)
 }
 
 function value_groups(groups, group_value) {
@@ -44,6 +54,8 @@ function parse_stream(stream) {
     if (in_garbage) {
       if ( stream[c] === '>' ) {
         in_garbage = false
+      } else {
+        current_group.garbage++
       }
     } else {
       if (stream[c] === '<') {
@@ -55,6 +67,5 @@ function parse_stream(stream) {
       }
     }
   }
-
-  return groups_to_lists(rv)[0]
+  return rv
 }
