@@ -1,6 +1,4 @@
-const puzzle_input = '106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36'
-const array256 = Array.from(Array(256).keys())
-
+// Part 1 tests:
 function test_subarray(array, start, length, expected) {
   QUnit.test('subarray([' + array.toString() + '], ' + start.toString() + ', ' + length.toString() + ') === [' + expected.toString() + ']',
              assert => assert.deepEqual(subarray(array, start, length), expected))
@@ -28,5 +26,29 @@ test_checksum([0, 1, 2, 3, 4], 0)
 test_checksum([4, 3, 2], 12)
 test_checksum([13, 12, 11, 10], 156)
 
+// Part 1 solution:
 QUnit.test('checksum(apply_transformations(array256, puzzle_input)) === 11413',
            assert => assert.equal(checksum(apply_transformations(array256, puzzle_input)), 11413))
+
+// Part 2 tests:
+function test_dense_hash(sparse_hash, expected) {
+  QUnit.test('dense_hash([' + sparse_hash + ']) === [' + expected + ']',
+             assert => assert.deepEqual(dense_hash(sparse_hash), expected))
+}
+test_dense_hash([65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22], [64])
+
+function test_hex_string(dense_hash, expected) {
+  QUnit.test('hex_string([' + dense_hash + ']) === "' + expected + '"',
+             assert => assert.equal(hex_string(dense_hash), expected))
+}
+test_hex_string([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "00000000000000000000000000000000")
+test_hex_string([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "000102030405060708090a0b0c0d0e0f")
+
+function test_hash(input, expected) {
+  QUnit.test('hash("' + input + '") === "' + expected + '"',
+             assert => assert.equal(hash(input), expected))
+}
+test_hash('', 'a2582a3a0e66e6e86e3812dcb672a272')
+test_hash('AoC 2017', '33efeb34ea91902bb2f59c9920caa6cd')
+test_hash('1,2,3', '3efbe78a8d82f29979031a4aa0b16a9d')
+test_hash('1,2,4', '63960835bcdc130f0b66d7ff4f6a5a8e')
