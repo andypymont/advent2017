@@ -32,11 +32,22 @@ function distance(v1, v2) {
   return distances_3d.reduce((a, b) => Math.max(a, b), 0)
 }
 
-function distance_after_moves(movestext) {
-  const moves = movestext.split(',')
+function locations_visited(journey) {
   let location = '0,0'
-  moves.forEach(move => {
-    location = move_direction(location, move)
+  let rv = ['0,0']
+  journey.split(',').forEach(move => {
+      location = move_direction(location, move)
+      rv.push(location)
   })
-  return distance('0,0', location)
+  return rv
+}
+
+function distance_after_moves(journey) {
+  const visited = locations_visited(journey)
+  return distance('0,0', visited[visited.length - 1])
+}
+
+function furthest_travelled(journey) {
+  return locations_visited(journey).map(coords => distance('0,0', coords))
+                                   .reduce((a, b) => Math.max(a, b), 0)
 }

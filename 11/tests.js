@@ -1,3 +1,4 @@
+// Part 1 tests
 function test_vector_to_coords(vector, expected) {
   QUnit.test('vector_to_coords("' + vector + '") === [' + expected.toString() + ']',
              assert => assert.deepEqual(vector_to_coords(vector), expected))
@@ -40,3 +41,18 @@ test_distance_after_moves('ne,ne,ne', 3)
 test_distance_after_moves('ne,ne,sw,sw', 0)
 test_distance_after_moves('ne,ne,s,s', 2)
 test_distance_after_moves('se,sw,se,sw,sw', 3)
+
+// Part 1 solution
+QUnit.test('distance_after_moves(puzzle_input) === 773',
+           assert => assert.equal(distance_after_moves(puzzle_input), 773))
+
+// Part 2 tests
+function test_furthest_travelled(moves, expected) {
+  QUnit.test('furthest_travelled("' + moves + '") === ' + expected,
+             assert => assert.equal(furthest_travelled(moves), expected))
+}
+test_furthest_travelled('ne,ne,ne', 3)
+test_furthest_travelled('ne,ne,sw,sw', 2)
+test_furthest_travelled('ne,ne,s,s', 2)
+test_furthest_travelled('se,sw,se,sw,sw', 3)
+test_furthest_travelled('s,s,s,s,n,n,ne', 4)
