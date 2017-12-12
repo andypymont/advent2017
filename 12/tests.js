@@ -72,22 +72,22 @@ test_parse_programs(
 
 function test_group_programs(name, text, expected) {
   QUnit.test('group_programs(parse_programs(' + name + ')) returns expected list',
-             assert => assert.deepEqual(new Set(group_programs(parse_programs(text))), new Set(expected)))
+             assert => assert.deepEqual(group_programs(parse_programs(text)), expected))
 }
 test_group_programs(
   't1',
   t1,
-  [0, 2, 3, 4, 5, 6]
+  new Set([0, 2, 3, 4, 5, 6])
 )
 test_group_programs(
   't2',
   t2,
-  [0, 4, 7]
+  new Set([0, 4, 7])
 )
 
 // Part 1 solution
 QUnit.test('group_programs(parse_programs(puzzle_input)).length === 306',
-           assert => assert.equal(group_programs(parse_programs(puzzle_input)).length, 306))
+           assert => assert.equal(group_programs(parse_programs(puzzle_input)).size, 306))
 
 // Part 2 tests
 function test_group_count(name, text, expected) {

@@ -7,7 +7,7 @@ function parse_programs(text) {
   return rv
 }
 
-function group_programs(programs, id, list) {
+function group_programs_old(programs, id, list) {
   if (typeof id === 'undefined') {
     id = 0
   }
@@ -22,6 +22,21 @@ function group_programs(programs, id, list) {
               .forEach(id => group_programs(programs, id, list))
 
   return list
+}
+
+function group_programs(programs, id, set) {
+  id = typeof id === 'undefined' ? 0 : id
+  if ( typeof set === 'undefined' ) {
+    set = new Set()
+  }
+
+  if (!set.has(id)) {
+    set.add(id)
+  }
+  programs[id].filter(item => !set.has(item))
+              .forEach(id => group_programs(programs, id, set))
+
+  return set
 }
 
 function group_count(programs) {
