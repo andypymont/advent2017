@@ -23,3 +23,19 @@ function group_programs(programs, id, list) {
 
   return list
 }
+
+function group_count(programs) {
+  const seen = new Set()
+  let groups = 0
+
+  while ( seen.size < Object.keys(programs).length ) {
+    let id = 0
+    while ( seen.has(id) ) {
+      id++
+    }
+    groups++
+    group_programs(programs, id).forEach(item => seen.add(item))
+  }
+
+  return groups
+}
