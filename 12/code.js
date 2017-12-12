@@ -7,23 +7,6 @@ function parse_programs(text) {
   return rv
 }
 
-function group_programs_old(programs, id, list) {
-  if (typeof id === 'undefined') {
-    id = 0
-  }
-  if (typeof list === 'undefined') {
-    list = []
-  }
-
-  if (list.indexOf(id) === -1) {
-    list.push(id)
-  }
-  programs[id].filter(item => list.indexOf(item) === -1)
-              .forEach(id => group_programs(programs, id, list))
-
-  return list
-}
-
 function group_programs(programs, id, set) {
   id = typeof id === 'undefined' ? 0 : id
   if ( typeof set === 'undefined' ) {
