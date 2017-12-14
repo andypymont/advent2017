@@ -67,3 +67,52 @@ function generate_grid(secret_key) {
               .map(knot_hash)
               .map(binary_string)
 }
+
+function is_active_cell(grid, x, y) {
+  if ( y < 0 || y >= grid.length ) {
+    return false
+  } else if ( x < 0 || x >= grid[y].length ) {
+    return false
+  } else {
+    return grid[y][x] === '1'
+  }
+}
+
+function region(grid, x, y, collected) {
+  collected = collected || new Set()
+  const coords = (x,y) => [x, y].join(',')
+  if (is_active_cell(grid, x, y) && !collected.has(coords(x, y))) {
+    collected.add(coords(x, y))
+    let neighbours = [
+      coords(x + 1, y),
+      coords(x - 1, y),
+      coords(x, y + 1),
+      coords(x, y - 1)
+    ]
+    neighbours.filter(coords => !collected.has(coords))
+              .map(coords => coords.split(',').map(Number))
+              .filter(coords => is_active_cell(grid, coords[0], coords[1]))
+              .forEach(function(coords) {
+                region(grid, coords[0], coords[1], collected)
+              })
+  }
+  return collected
+}
+
+function count_regions(grid) {
+  let seen = new Set()
+  let regions = 0
+  const coords = (x,y) => [x, y].join(',')
+
+  for ( let y = 0; y < grid.length; y++ ) {
+    for ( let x = 0; x < grid[y].length; x++ ) {
+      if ( grid[y][x] === '1' && !seen.has(coords(x, y))) {
+        r = region(grid, x, y)
+        r.forEach(x => seen.add(x))
+        regions++
+      }
+    }
+  }
+
+  return regions
+}

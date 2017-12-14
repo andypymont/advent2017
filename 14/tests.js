@@ -63,3 +63,41 @@ QUnit.test('count of 1s in generate_grid(puzzle_input) === 8106',
            assert => assert.equal(generate_grid(puzzle_input).map(row => Array.from(row).filter(x => x === '1').length)
                                                              .reduce((a,b) => a + b, 0),
                                   8106))
+
+// Part 2 tests
+t1 = [
+  '11010100',
+  '01010101',
+  '00001010',
+  '10101101',
+  '01101000',
+  '11001001',
+  '01000100',
+  '11010110'
+]
+function test_is_active_cell(x, y, expected) {
+  QUnit.test('is_active_cell(t1, ' + x + ', ' + y + ') === ' + expected,
+             assert => assert.equal(is_active_cell(t1, x, y), expected))
+}
+test_is_active_cell(0, 0, true)
+test_is_active_cell(-1, -1, false)
+test_is_active_cell(-1, 4, false)
+test_is_active_cell(5, -1, false)
+test_is_active_cell(9, 6, false)
+test_is_active_cell(3, 1, true)
+test_is_active_cell(7, 0, false)
+test_is_active_cell(0, 7, true)
+
+function test_region(x, y, expected) {
+  QUnit.test('region(t1, ' + x + ', ' + y + ') returns [' + expected.toString() + '])',
+             function(assert) {
+               assert.deepEqual(Array.from(region(t1, x, y)).sort(), expected.sort())
+             })
+}
+test_region(0, 0, ['0,0', '1,0', '1,1'])
+test_region(2, 0, [])
+test_region(7, 5, ['7,5'])
+test_region(0, 5, ['2,3', '2,4', '1,4', '0,5', '1,5', '1,6', '0,7', '1,7'])
+
+QUnit.test('count_regions(t1) === 12',
+           assert => assert.equal(count_regions(t1), 12))
