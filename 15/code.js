@@ -8,11 +8,11 @@ function *advent_generator(start, multiply) {
 }
 
 function binary_bottom16(number) {
-  let binary = number.toString(2)
-  while (binary.length < 16) {
-    binary = "0" + binary
+  let rv = (number & 65535).toString(2)
+  while (rv.length < 16) {
+    rv = "0" + rv
   }
-  return binary.substring(binary.length - 16, binary.length)
+  return rv
 }
 
 function judge(start, times) {
