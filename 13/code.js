@@ -7,36 +7,38 @@ function parse_scanners(text) {
   return scanners
 }
 
-function scanner_position(range, picosecond) {
-  if (range === 0) {
-    return 0
-  } else if (range === 1) {
-    return picosecond % 2
-  } else {
-    let within = picosecond % ((range - 1) * 2)
-
-    if (within >= range) {
-      return (range * 2) - 2 - within
-    } else {
-      return within
-    }
-  }
-}
-
-function scanner_at_depth(scanners, picosecond) {
-  if (!(picosecond in scanners)) {
+function scanner_at_depth(scanners, depth, delay) {
+  let picosecond = depth + delay
+  if (!(depth in scanners)) {
     return false
   } else {
-    return scanner_position(scanners[picosecond], picosecond) === picosecond
+    let range = scanners[depth]
+    if (range === 0) {
+      return 0
+    } else if (range === 1) {
+      return (picosecond % 2 === 0)
+    } else {
+      return (picosecond % ((range - 1) * 2) === 0)
+    }
   }
 }
 
-function journey(scanners) {
-  rv = 0
-  Object.keys(scanners).forEach(function(depth) {
-    if (scanner_at_depth(scanners, depth)) {
-      rv += depth + scanners[depth]
-    }
-  })
-  return rv
+function journey(scanners, delay) {
+  delay = delay || 0
+  return Object.keys(scanners)
+               .map(x => parseInt(x))
+               .filter(x => scanner_at_depth(scanners, x, delay))
+               .map(x => scanners[x] * x)
+}
+
+function severity(caught) {
+  return caught.reduce((a, b) => a + b, 0)
+}
+
+function delay_needed(scanners) {
+  let delay = 0
+  while ( journey(scanners, delay).length > 0 ) {
+    delay++
+  }
+  return delay
 }
