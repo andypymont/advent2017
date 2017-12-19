@@ -37,7 +37,8 @@ function exit(grid, row, col, entered) {
 function collect_letters(grid) {
   grid = grid.split('\n')
   const nonletterchars = [' ', '+', '-', '|']
-  let rv = ''
+  let letters = ''
+  let steps = 0
   let direction = 'down'
   let row = 0
   let col = 0
@@ -51,14 +52,18 @@ function collect_letters(grid) {
   }
 
   // traverse grid collecting letters
-  while ( (row < grid.length) && (row >= 0) && (col >= 0) && (col < grid[row].length) && (direction !== 'none') ) {
+  while (true) {
     if (  nonletterchars.indexOf(grid[row][col]) === -1 ) {
-      rv += grid[row][col]
+      letters += grid[row][col]
     }
     direction = exit(grid, row, col, direction)
     row += direction_changes[direction][0]
     col += direction_changes[direction][1]
+    steps++
+    if (!((row < grid.length) && (row >= 0) && (col >= 0) && (col < grid[row].length) && (direction !== 'none') && (grid[row][col] !== ' '))) {
+      break
+    }
   }
 
-  return rv
+  return { letters, steps }
 }

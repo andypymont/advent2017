@@ -34,11 +34,16 @@ test_exit(5, 11, 'down', 'right')
 test_exit(5, 14, 'right', 'up')
 test_exit(3, 14, 'up', 'left')
 
-QUnit.test('collect_letters(test_map_raw) === "ABCDEF"', function(assert) {
-  assert.equal(collect_letters(test_map_raw), 'ABCDEF')
+QUnit.test('collect_letters(test_map_raw)["letters"] === "ABCDEF"', function(assert) {
+  assert.equal(collect_letters(test_map_raw)['letters'], 'ABCDEF')
 })
 
 // Part 1 solution
-QUnit.test('collect_letters(puzzle_input) === "HATBMQJYZ"', function(assert) {
-  assert.equal(collect_letters(puzzle_input), 'HATBMQJYZ')
+QUnit.test('collect_letters(puzzle_input)["letters"] === "HATBMQJYZ"', function(assert) {
+  assert.equal(collect_letters(puzzle_input)['letters'], 'HATBMQJYZ')
+})
+
+// Part 2 test
+QUnit.test('collect_letters(test_map_raw)["steps"] === 38', function(assert) {
+  assert.equal(collect_letters(test_map_raw)['steps'], 38)
 })
