@@ -74,3 +74,13 @@ QUnit.test('closest_particle(parse_particles(test_input)) === 0', function(asser
 QUnit.test('closest_particle(parse_particles(puzzle_input)) === 161', function(assert) {
   assert.equal(closest_particle(parse_particles(puzzle_input)), 161)
 })
+
+// Part 2 tests
+const test2_input =
+`p=<-6,0,0>, v=< 3,0,0>, a=< 0,0,0>
+p=<-4,0,0>, v=< 2,0,0>, a=< 0,0,0>
+p=<-2,0,0>, v=< 1,0,0>, a=< 0,0,0>
+p=< 3,0,0>, v=<-1,0,0>, a=< 0,0,0>`
+QUnit.test('surviving_particles(parse_particles(test2_input)) === 1', function(assert) {
+  assert.equal(surviving_particles(parse_particles(test2_input)), 1)
+})

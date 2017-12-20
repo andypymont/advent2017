@@ -36,3 +36,13 @@ function closest_particle(particles) {
   const shortest = distances.reduce((a, b) => Math.min(a, b), Infinity)
   return distances.indexOf(shortest)
 }
+
+function surviving_particles(particles) {
+  for ( let i = 0; i < 1000; i++ ) {
+    const positions = particles.map(p => p.p.join(','))
+    const repeated_positions = positions.filter((item, ix, self) => self.indexOf(item) !== ix)
+    particles = particles.filter(p => repeated_positions.indexOf(p.p.join(',')) === -1)
+    particles.forEach(p => p.advance())
+  }
+  return particles.length
+}
