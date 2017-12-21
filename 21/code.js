@@ -19,21 +19,18 @@ const match = (function() {
     memo[pattern] = memo[pattern] || {}
 
     if ( !(pattern in memo && value in memo[pattern]) ) {
-      memo[pattern][value] = [
-        value,
-        flip_horizontal(value),
-        flip_vertical(value),
-        rotate(value, 1),
-        flip_horizontal(rotate(value, 1)),
-        flip_vertical(rotate(value, 1)),
-        rotate(value, 2),
-        flip_horizontal(rotate(value, 2)),
-        flip_vertical(rotate(value, 2)),
-        rotate(value, 3),
-        flip_horizontal(rotate(value, 3)),
-        flip_vertical(rotate(value, 3))
-      ].map(test => test === pattern)
-       .reduce((a, b) => a || b, false)
+      memo[pattern][value] = (value === pattern) ||
+                             (flip_horizontal(value) === pattern) ||
+                             (flip_vertical(value) === pattern) ||
+                             (rotate(value, 1) === pattern) ||
+                             (flip_horizontal(rotate(value, 1)) === pattern) ||
+                             (flip_vertical(rotate(value, 1)) === pattern) ||
+                             (rotate(value, 2) == pattern) ||
+                             (flip_horizontal(rotate(value, 2)) === pattern) ||
+                             (flip_vertical(rotate(value, 2)) === pattern) ||
+                             (rotate(value, 3) === pattern) ||
+                             (flip_horizontal(rotate(value, 3)) === pattern) ||
+                             (flip_vertical(rotate(value, 3)) === pattern)
     }
 
     return memo[pattern][value]
