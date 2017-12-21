@@ -12,23 +12,33 @@ function rotate(pattern, times) {
   return pattern.map(row => row.join('')).join('/')
 }
 
-function match(pattern, value) {
-  return [
-    value,
-    flip_horizontal(value),
-    flip_vertical(value),
-    rotate(value, 1),
-    flip_horizontal(rotate(value, 1)),
-    flip_vertical(rotate(value, 1)),
-    rotate(value, 2),
-    flip_horizontal(rotate(value, 2)),
-    flip_vertical(rotate(value, 2)),
-    rotate(value, 3),
-    flip_horizontal(rotate(value, 3)),
-    flip_vertical(rotate(value, 3))
-  ].map(test => test === pattern)
-   .reduce((a, b) => a || b, false)
-}
+const match = (function() {
+  let memo = {}
+
+  return function(pattern, value) {
+    memo[pattern] = memo[pattern] || {}
+
+    if ( !(pattern in memo && value in memo[pattern]) ) {
+      memo[pattern][value] = [
+        value,
+        flip_horizontal(value),
+        flip_vertical(value),
+        rotate(value, 1),
+        flip_horizontal(rotate(value, 1)),
+        flip_vertical(rotate(value, 1)),
+        rotate(value, 2),
+        flip_horizontal(rotate(value, 2)),
+        flip_vertical(rotate(value, 2)),
+        rotate(value, 3),
+        flip_horizontal(rotate(value, 3)),
+        flip_vertical(rotate(value, 3))
+      ].map(test => test === pattern)
+       .reduce((a, b) => a || b, false)
+    }
+
+    return memo[pattern][value]
+  }
+})()
 
 function Rulebook(rules_text) {
   this.rules = rules_text.split('\n').map(rule => rule.split(' => '))
