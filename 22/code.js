@@ -45,34 +45,41 @@ function read_grid(grid) {
 
 function write_grid(grid) {
   const coords = Object.keys(grid).map(x => x.split(','))
-  const height = 1 + coords.map(c => c[1]).reduce((a, b) => Math.max(a, b), 0) - coords.map(c => c[1]).reduce((a, b) => Math.min(a, b), Infinity)
-  const width = 1 + coords.map(c => c[0]).reduce((a, b) => Math.max(a, b), 0) - coords.map(c => c[0]).reduce((a, b) => Math.min(a, b), Infinity)
+  const max_x = coords.map(c => c[0]).reduce((a, b) => Math.max(a, b), -Infinity)
+  const max_y = coords.map(c => c[1]).reduce((a, b) => Math.max(a, b), -Infinity)
+  const min_x = coords.map(c => c[0]).reduce((a, b) => Math.min(a, b), Infinity)
+  const min_y = coords.map(c => c[1]).reduce((a, b) => Math.min(a, b), Infinity)
 
-  return range(height).map(r => range(width).map(c => {
-    let y = 1 + r - ((height + 1) / 2)
-    let x = 1 + c - ((width + 1) / 2)
-    return grid[x + "," + y]
-  }).map(x => x === 1 ? '#' : '.').join('')).join('\n')
+  let rv = range(1 + max_y - min_y).map(r => range(1 + max_x - min_x).map(x => '.'))
+  for ( let y = min_y, y_ix = 0; y <= max_y; y++, y_ix++ ) {
+    for ( let x = min_x, x_ix = 0; x <= max_x; x++, x_ix++ ) {
+      if ( (grid[x + ',' + y] || 0) === 1 ) {
+        rv[y_ix][x_ix] = '#'
+      }
+    }
+  }
+  return rv.map(row => row.join('')).join('\n')
 }
 
 function sporifica(start, activities) {
   let grid = read_grid(start)
   let direction = '0,-1'
   let position = '0,0'
+  let infected = 0
 
   range(activities).forEach(function(a) {
     grid[position] = grid[position] || 0
     if (grid[position] === 0) {
       direction = turn_left(direction)
       grid[position] = 1
+      infected++
       position = add_vectors(position, direction)
     } else {
-      direction = turn_left(direction)
+      direction = turn_right(direction)
       grid[position] = 0
       position = add_vectors(position, direction)
     }
   })
 
-  return write_grid(grid)
-  // return { grid, position, direction }
+  return { grid: write_grid(grid), infected: infected }
 }

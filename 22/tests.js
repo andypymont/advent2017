@@ -1,3 +1,4 @@
+// Part 1 tests
 function test_range(x, expected) {
   QUnit.test('range(' + x + ') === [' + expected.toString() + ']', function(assert) {
     assert.deepEqual(range(x), expected)
@@ -29,7 +30,8 @@ function test_write_grid(grid, expected) {
     assert.equal(write_grid(grid), expected)
   })
 }
-test_write_grid({'-1,-1': 0, '0,-1': 0, '1,-1': 1, '0,-1': 0, '0,0': 1, '1,0': 0, '-1,1': 1, '0,1': 0, '1,1': 0}, '..#\n.#.\n#..')
+test_write_grid({'-1,-1': 0, '0,-1': 0, '1,-1': 1, '-1,0': 0, '0,0': 1, '1,0': 0, '-1,1': 1, '0,1': 0, '1,1': 0}, '..#\n.#.\n#..')
+test_write_grid({'-2,-1': 1, '-1,-1': 1, '0,-1': 0, '1,-1': 1, '-1,0': 0, '0,0': 1, '1,0': 0, '-1,1': 0, '0,1': 0, '1,1': 0}, '##.#\n..#.\n....')
 
 function test_turn_left(direction, expected) {
   QUnit.test('turn_left("' + direction + '") === "' + expected + '""', function(assert) {
@@ -52,12 +54,23 @@ test_turn_right('0,1', '-1,0')
 test_turn_right('-1,0', '0,-1')
 
 function test_sporifica(start, activities, expected) {
-  QUnit.test('sporifica("' + start + '", ' + activities + ') === ' + expected, function(assert) {
-    assert.equal(sporifica(start, activities), expected)
+  QUnit.test('sporifica("' + start + '", ' + activities + ').grid === ' + expected, function(assert) {
+    assert.equal(sporifica(start, activities).grid, expected)
   })
 }
 test_sporifica('..#\n#..\n...', 1, '..#\n##.\n...')
 test_sporifica('..#\n#..\n...', 2, '..#\n.#.\n...')
-test_sporifica('..#\n#..\n...', 6, '##.#.\n###..\n.....')
-test_sporifica('..#\n#..\n...', 7, '#..#.\n###..\n.....')
-test_sporifica('..#\n#..\n...', 70, '.....##..\n....#..#.\n....#..#.\n..#.#...#\n..#.#..#.\n.....##..\n.........\n.........')
+test_sporifica('..#\n#..\n...', 3, '#.#\n.#.\n...')
+test_sporifica('..#\n#..\n...', 4, '##.#\n..#.\n....')
+test_sporifica('..#\n#..\n...', 5, '##.#\n#.#.\n....')
+test_sporifica('..#\n#..\n...', 6, '##.#\n###.\n....')
+test_sporifica('..#\n#..\n...', 7, '#..#\n###.\n....')
+test_sporifica('..#\n#..\n...', 8, '#.##\n###.\n....')
+QUnit.test('sporifica("..#\n#..\n..."), 70).infected === 41', function(assert) {
+  assert.equal(sporifica('..#\n#..\n...', 70).infected, 41)
+})
+
+// Part 1 solution
+QUnit.test('sporifica(puzzle_input, 10000).infected === 5266', function(assert) {
+  assert.equal(sporifica(puzzle_input, 10000).infected, 5266)
+})
