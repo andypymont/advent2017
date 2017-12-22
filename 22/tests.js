@@ -74,3 +74,52 @@ QUnit.test('sporifica("..#\n#..\n..."), 70).infected === 41', function(assert) {
 QUnit.test('sporifica(puzzle_input, 10000).infected === 5266', function(assert) {
   assert.equal(sporifica(puzzle_input, 10000).infected, 5266)
 })
+
+// Part 2 tests
+function test_reverse(direction, expected) {
+  QUnit.test('reverse("' + direction + '") === "' + expected + '"', function(assert) {
+    assert.equal(reverse(direction), expected)
+  })
+}
+test_reverse('-1,0', '1,0')
+test_reverse('1,0', '-1,0')
+test_reverse('0,-1', '0,1')
+test_reverse('0,1', '0,-1')
+
+function test_read_grid2(map, expected) {
+  QUnit.test('read_grid2("' + map + '") parses correctly', function(assert) {
+    assert.deepEqual(read_grid2(map), expected)
+  })
+}
+test_read_grid2('..#\n#..\n...', {'-1,-1': '.', '0,-1': '.', '1,-1': '#', '-1,0': '#', '0,0': '.', '1,0': '.', '-1,1': '.', '0,1': '.', '1,1': '.'})
+
+function test_write_grid2(grid, expected) {
+  QUnit.test('write_grid2(...) === "' + expected + '"', function(assert) {
+    assert.equal(write_grid2(grid), expected)
+  })
+}
+test_write_grid2({'-1,-1': 'w', '0,-1': '.', '1,-1': '#', '-1,0': '.', '0,0': '#', '1,0': '.', '-1,1': '#', '0,1': '.', '1,1': '.'},
+                  'w.#\n.#.\n#..')
+test_write_grid2({'-2,-1': '#', '-1,-1': '#', '0,-1': '.', '1,-1': '#', '-1,0': 'f', '0,0': '#', '1,0': '.', '-1,1': '.', '0,1': '.', '1,1': '.'},
+                  '##.#\n.f#.\n....')
+
+function test_sporifica2(start, activities, finish, infections) {
+  QUnit.test('sporifica2("' + start + '", ' + activities + ') has .grid === "' + finish + '" & .infections === ' + infections, function(assert) {
+    result = sporifica2(start, activities)
+    assert.equal(result.grid, finish)
+    assert.equal(result.infected, infections)
+  })
+}
+test_sporifica2('..#\n#..\n...', 1, '..#\n#w.\n...', 0)
+test_sporifica2('..#\n#..\n...', 2, '..#\nfw.\n...', 0)
+test_sporifica2('..#\n#..\n...', 3, 'w.#\nfw.\n...', 0)
+test_sporifica2('..#\n#..\n...', 4, 'ww.#\n.fw.\n....', 0)
+test_sporifica2('..#\n#..\n...', 5, 'ww.#\nwfw.\n....', 0)
+test_sporifica2('..#\n#..\n...', 6, 'ww.#\nw.w.\n....', 0)
+test_sporifica2('..#\n#..\n...', 7, 'ww.#\n#.w.\n....', 1)
+QUnit.test('sporifica2("..#\n#..\n...", 100).infected === 26', function(assert) {
+  assert.equal(sporifica2('..#\n#..\n...', 100).infected, 26)
+})
+QUnit.test('sporifica2("..#\n#..\n...", 10000000).infected === 2511944', function(assert) {
+  assert.equal(sporifica2('..#\n#..\n...', 10000000).infected, 2511944)
+})
