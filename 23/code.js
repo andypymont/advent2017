@@ -40,3 +40,25 @@ function count_mul(instructions) {
 
   return count
 }
+
+function coprocess(a) {
+  let h = 0
+  let start = 79
+
+  if ( a !== 0 ) {
+    start = (start * 100) + 100000
+  }
+
+  for ( let b = start; b <= (start + 17000); b += 17 ) {
+    for ( let d = 2; d < b; d++ ) {
+      if ( b % d === 0 ) {
+        h++
+        break
+      }
+    }
+  }
+
+  let mul = Math.pow(start - 2, 2)
+
+  return { mul, h }
+}

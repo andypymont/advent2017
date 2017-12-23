@@ -1,3 +1,4 @@
+// Part 1 tests
 QUnit.test('creation of empty Coprocessor object', function(assert) {
   const copro = new Coprocessor()
   assert.ok(copro)
@@ -65,4 +66,14 @@ mul a -1
 jnz 1 a
 mul b 2`
   assert.equal(count_mul(instructions), 3)
+})
+
+// Part 1 solution
+QUnit.test('count_mul(puzzle_input) === 5929', function(assert) {
+  assert.equal(count_mul(puzzle_input), 5929)
+})
+
+// Part 2 - ensure consistency with part 1 whilst simpifying
+QUnit.test('recreate part 1: coprocess(0).mul === 5929', function(assert) {
+  assert.equal(coprocess(0).mul, 5929)
 })
