@@ -1,3 +1,4 @@
+// Part 1
 const example1 =
 `0/1
 1/2
@@ -83,4 +84,28 @@ QUnit.test('strongest_bridge(possible_bridges(parse_components(example1))) === 5
 
 QUnit.test('strongest_bridge(possible_bridges(parse_components(example2))) === 31', function(assert) {
   assert.equal(strongest_bridge(possible_bridges(parse_components(example2))), 31)
+})
+
+// Part 2
+function test_bridge_length(bridge, expected) {
+  QUnit.test('bridge_length("' + bridge + '") === ' + expected, function(assert) {
+    assert.equal(bridge_length(bridge), expected)
+  })
+}
+test_bridge_length('0/1', 1)
+test_bridge_length('0/1--10/1', 2)
+test_bridge_length('0/2--2/3--3/5', 3)
+test_bridge_length('0/2--2/2--2/3--3/5', 4)
+
+QUnit.test('longest_bridge(possible_bridges(parse_components(example1))) === 2', function(assert) {
+  assert.equal(longest_bridge(possible_bridges(parse_components(example1))), 2)
+})
+QUnit.test('longest_bridge(possible_bridges(parse_components(example1))) === 4', function(assert) {
+  assert.equal(longest_bridge(possible_bridges(parse_components(example2))), 4)
+})
+QUnit.test('strongest_long_bridge(possible_bridges(parse_components(example1))) === 5', function(assert) {
+  assert.equal(strongest_long_bridge(possible_bridges(parse_components(example1))), 5)
+})
+QUnit.test('strongest_long_bridge(possible_bridges(parse_components(example2))) === 19', function(assert) {
+  assert.equal(strongest_long_bridge(possible_bridges(parse_components(example2))), 19)
 })

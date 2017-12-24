@@ -47,3 +47,16 @@ function bridge_strength(bridge) {
 function strongest_bridge(bridges) {
   return Array.from(bridges).map(bridge_strength).reduce((a, b) => Math.max(a, b), 0)
 }
+
+function bridge_length(bridge) {
+  return bridge.split('--').length
+}
+
+function longest_bridge(bridges) {
+  return Array.from(bridges).map(bridge_length).reduce((a, b) => Math.max(a, b), 0)
+}
+
+function strongest_long_bridge(bridges) {
+  const length = longest_bridge(bridges)
+  return strongest_bridge(Array.from(bridges).filter(bridge => bridge_length(bridge) === length))
+}
